@@ -1,3 +1,5 @@
+import java.util.*;
+
 /*
  * @lc app=leetcode id=98 lang=java
  *
@@ -63,7 +65,28 @@
  */
 class Solution {
 	public boolean isValidBST(TreeNode root) {
-		return false;
+		if (root == null)
+			return true;
+		List<Integer> result = new ArrayList<>();
+		preOrder(root, result);
+		for (int i = 0; i < result.size() - 1; i++) {
+			if (i + 1 < result.size()) {
+				if (result.get(i) >= result.get(i + 1))
+					return false;
+			}
+		}
+		return true;
+	}
+
+	public void preOrder(TreeNode root, List<Integer> result) {
+		if (root.left != null)
+			preOrder(root.left, result);
+		result.add(root.val);
+		if (root.right != null)
+			preOrder(root.right, result);
 	}
 }
 // @lc code=end
+// []
+// [1]
+// [4,1,5,null,null,4,6]
