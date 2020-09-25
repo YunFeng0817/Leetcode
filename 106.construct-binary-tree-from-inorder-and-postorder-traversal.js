@@ -56,14 +56,8 @@ var buildTree = function (inorder, postorder) {
     let rootVal = postorder[postorder.length - 1];
     root.val = rootVal;
     let rootIndex = inorder.indexOf(rootVal);
-    let leftInorder = inorder.slice(0, rootIndex);
-    if (leftInorder.length > 0) {
-        root.left = buildTree(leftInorder, postorder.slice(0, leftInorder.length));
-    }
-    let rightInorder = inorder.slice(rootIndex + 1);
-    if (rightInorder.length > 0) {
-        root.right = buildTree(rightInorder, postorder.slice(leftInorder.length, postorder.length - 1));
-    }
+    root.left = buildTree(inorder.slice(0, rootIndex), postorder.slice(0, rootIndex));
+    root.right = buildTree(inorder.slice(rootIndex + 1), postorder.slice(rootIndex, postorder.length - 1));
     return root;
 };
 // @lc code=end
