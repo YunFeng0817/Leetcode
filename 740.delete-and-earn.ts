@@ -66,25 +66,24 @@ function deleteAndEarn(nums: number[]): number {
   const map = new Map();
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
-    if (map.has(num)) map.set(num, map.get(num) + 1);
-    else map.set(num, 1);
+    if (map.has(num)) map.set(num, map.get(num) + num);
+    else map.set(num, num);
   }
   const keys = Array.from(map.keys()).sort((a, b) => a - b);
-  if (keys.length === 1) return keys[0] * map.get(keys[0]);
+  if (keys.length === 1) return map.get(keys[0]);
   // reuse the map to store the greatest value if all inputs are <= the key
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     if (i === 0) {
-      map.set(key, key * map.get(key));
+      map.set(key, map.get(key));
     } else {
       const pre = keys[i - 1];
-      const currVal = key * map.get(key);
       if (key - pre === 1) {
         let preV = 0;
         if (i - 2 >= 0) preV = map.get(keys[i - 2]);
-        map.set(key, Math.max(map.get(pre), preV + currVal));
+        map.set(key, Math.max(map.get(pre), preV + map.get(key)));
       } else {
-        map.set(key, map.get(pre) + currVal);
+        map.set(key, map.get(pre) + map.get(key));
       }
     }
   }
